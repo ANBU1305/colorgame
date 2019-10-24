@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ 
+    <style>
+ .x{
+     height:94px;
+     cursor: pointer;
+     border-radius:50%;
+     background-color: grey;
+     padding:36px;
+     margin: 0 10px;
+ }
+
+ .green{
+     background-color: green;
+ }
+ .orange{
+     background-color: orange;
+ }
+ .red{
+ background-color: red;
+ }
+</style>
+</head> 
+<body onkeyup="detect(event)">
+    <title>GAME</title>
+    <div id="random"></div>
+     
+    <div class="container" id="con">
+       
+        </div> 
+    <script>
+        var result;
+        var selectedIndex;
+        var select;
+        var wait=false;
+        var answer=0;
+        var guest=0;
+        var attempt=1;
+    function random(min,max){
+        var ra=Math.floor(Math.random()* (max-min)+min).toString();
+        result=ra.split("");
+       console.log(ra.split(""));
+    } random(1111,9999);
+   
+
+function fun(element,index){
+    select=element;
+    element.target.classList.add("wait");
+    wait=true;
+    selectedIndex=index;
+
+    }
+    function detect(event){
+        if(wait==true){
+            if(event.keyCode >=48 && event.keyCode <=57){
+                select.target.innerHTML=event.key;
+                console.log(event.key)
+                wait=false;
+                select.target.classList.remove("wait");
+                checksum(event.key,selectedIndex);
+                answer++;
+                if(answer==4){
+                    attempt++;  
+                if(guest!=4){
+                    generate();
+                }
+                answer=0;
+                guest=0;
+                }
+                
+            }
+        }
+    }
+    function checksum(num,index){
+        console.log(num)
+        console.log(result)
+        var newy = result.indexOf(num.toString());
+        console.log(newy);
+    
+    if(newy!=-1){ 
+        if(newy==selectedIndex){
+            select.target.classList.add("green");
+            guest++;
+            if(guest==4){
+               alert("game won");
+            }
+            console.log("green")
+        }
+        else{
+            select.target.classList.add("orange");
+            console.log("org");
+        }
+    }
+    else{
+        select.target.classList.add("red");
+        console.log("red");
+    }
+    }
+     function generate(){
+    document.getElementById("con").innerHTML+=` <div class="row text-center">
+            <div class="col-md-3"></div>
+            <div class="col-md-1 x" onclick="fun(event,'0')"></div>
+            <div class="col-md-1 x" onclick="fun(event,'1')"></div>
+            <div class="col-md-1 x" onclick="fun(event,'2')"></div>
+            <div class="col-md-1 x" onclick="fun(event,'3')"></div>
+            </div>`
+     }
+     generate();
+
+     
+           </script>
+</body>
+</html>
